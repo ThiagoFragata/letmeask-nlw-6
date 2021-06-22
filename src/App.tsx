@@ -1,8 +1,11 @@
+import { NewRoom } from "./pages/NewRoom";
+
+import "./styles/globals.scss";
+
+
 function App() {
   return (
-    <div>
-      <h1>Hello, world!</h1>
-    </div>
+    <NewRoom/>
   );
 }
 
