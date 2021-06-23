@@ -1,19 +1,18 @@
-import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
-import { AuthContext } from "../App";
+import { useAuth } from "../hooks/useAuth";
+
+import { Button } from "../components/Button";
 
 import illustrationImg from "../assets/images/illustration.svg";
 import logoImg from "../assets/images/logo.svg";
 import googleIconImg from "../assets/images/google-icon.svg";
 
-import { Button } from "../components/Button";
-
 import "../styles/auth.scss";
 
 export function Home() {
   const history = useHistory();
-  const {user, signInWithGoogle} = useContext(AuthContext)
+  const {user, signInWithGoogle} = useAuth();
 
   // execução autenticação com google popup
   async function handleCreateRoom() {
