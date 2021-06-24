@@ -1,8 +1,10 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import logoImg from "../assets/images/logo.svg";
+
 import { Button } from "../components/Button";
+import { Question } from "../components/Question";
 
 import { RoomCode } from "../components/RoomCode";
 
@@ -11,6 +13,9 @@ import { useAuth } from "../hooks/useAuth";
 import { database } from "../services/firebase";
 
 import "../styles/room.scss";
+import "../styles/question.scss";
+import { useRoom } from "../hooks/useRoom";
+
 
 type RoomParamsType = {
   id: string;
@@ -18,10 +23,11 @@ type RoomParamsType = {
 
 export function Room() {
   const params = useParams<RoomParamsType>();
-  const roomId = params.id;
-
   const { user } = useAuth();
   const [newQuestion, setNewQuestion] = useState("");
+  
+  const roomId = params.id;
+  const {title, questions } = useRoom(roomId);
 
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault();
@@ -61,8 +67,8 @@ export function Room() {
 
       <main>
         <div className="room-title">
-          <h1>Sala React</h1>
-          <span>4 perguntas</span>
+          <h1>Sala {title}</h1>
+          {questions.length > 0 && <span>{questions.length} pergunta(s)</span>}
         </div>
 
         <form onSubmit={handleSendQuestion}>
@@ -73,7 +79,7 @@ export function Room() {
           />
 
           <div className="form-footer">
-            { user ? (
+            {user ? (
               <div className="user-info">
                 <img src={user.avatar} alt={user.name} />
                 <span>{user.name}</span>
@@ -89,6 +95,19 @@ export function Room() {
             </Button>
           </div>
         </form>
+
+        <div className="questions-list">
+          {questions.map((question => {
+            return (
+              <Question 
+              key={question.id}
+              content={question.content}
+              author={question.author}
+              />
+            );
+          }))}
+        </div>
+              
       </main>
     </div>
   );
