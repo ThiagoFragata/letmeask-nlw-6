@@ -1,5 +1,7 @@
 import { useParams, useHistory } from "react-router-dom";
 
+import toast, { Toaster } from "react-hot-toast";
+
 import logoImg from "../assets/images/logo.svg";
 import deleteImg from "../assets/images/delete.svg";
 import checkImg from "../assets/images/check.svg";
@@ -9,8 +11,6 @@ import { Button } from "../components/Button";
 import { Question } from "../components/Question";
 
 import { RoomCode } from "../components/RoomCode";
-
-// import { useAuth } from "../hooks/useAuth";
 
 import "../styles/room.scss";
 import "../styles/question.scss";
@@ -24,7 +24,6 @@ type RoomParamsType = {
 export function AdminRoom() {
   const params = useParams<RoomParamsType>();
   const history = useHistory();
-  // const { user } = useAuth();
 
   const roomId = params.id;
   const { title, questions } = useRoom(roomId);
@@ -33,7 +32,7 @@ export function AdminRoom() {
     await database.ref(`rooms/${roomId}`).update({
       closedAt: new Date(),
     });
-
+    toast.success("Sala encerrada!");
     history.push("/");
   }
 
@@ -41,21 +40,28 @@ export function AdminRoom() {
     if (window.confirm("Tem certeza que deseja excluir essa pergunta?")) {
       await database.ref(`rooms/${roomId}/questions/${questionId}`).remove();
     }
+    toast.success("Questão excluída!");
   }
 
   async function handleCheckQuestionAsAnswer(questionId: string) {
     await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
       isAnswered: true,
     });
+    toast.success("Questão respondida!");
   }
   async function handleHighlightQuestion(questionId: string) {
     await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
       isHighlighted: true,
     });
+    toast.success("Questão em destaque!");
   }
 
   return (
     <div id="page-room">
+      <div>
+        <Toaster />
+      </div>
+
       <header>
         <div className="content">
           <img src={logoImg} alt="Letmeask" />

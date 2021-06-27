@@ -3,15 +3,15 @@ button.room-code {
   border-radius: 8px;
   overflow: hidden;
 
-  background: #ffffff;
-  border: 1px solid #835afd;
+  background: var(--details);
+  border: 1px solid var(--purple);
   cursor: pointer;
 
   display: flex;
 
   div {
     height: 100%;
-    background: #835afd;
+    background: var(--purple);
     padding: 0 12px;
 
     display: flex;
@@ -25,8 +25,8 @@ button.room-code {
     flex: 1;
 
     padding: 0 16px 0 12px;
-    width: 240px;
+    width: 260px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 400;
   }
 }

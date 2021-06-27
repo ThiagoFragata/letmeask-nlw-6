@@ -7,6 +7,8 @@ import { useAuth } from "../hooks/useAuth";
 
 import { Button } from "../components/Button";
 
+import toast, { Toaster } from "react-hot-toast";
+
 import illustrationImg from "../assets/images/illustration.svg";
 import logoImg from "../assets/images/logo.svg";
 import googleIconImg from "../assets/images/google-icon.svg";
@@ -18,8 +20,8 @@ export function Home() {
   const { user, signInWithGoogle } = useAuth();
   const [roomCode, setRoomCode] = useState("");
 
-  // verificação autenticação com google popup
   async function handleCreateRoom() {
+
     if (!user) {
       await signInWithGoogle();
     }
@@ -34,13 +36,14 @@ export function Home() {
     }
 
     const roomRef = await database.ref(`rooms/${roomCode}`).get();
+
     if(!roomRef.exists()){
-      alert("Room does not exists!");
+      toast.error("A sala não existe!")
       return;
     }
 
     if(roomRef.val().closedAt) {
-      alert("Room already closed!");
+      toast.error("A sala já foi encerrada!")
       return;
     }
 
@@ -49,6 +52,8 @@ export function Home() {
 
   return (
     <div id="page-auth">
+      <div><Toaster/></div>
+
       <aside>
         <img
           src={illustrationImg}
@@ -57,6 +62,7 @@ export function Home() {
         <strong>Crie sala de Q&amp;A ao vivo</strong>
         <p>Tire as dúvidas da sua audiência em tempo-real</p>
       </aside>
+      
       <main>
         <div className="main-content">
           <img src={logoImg} alt="Letmeask" />

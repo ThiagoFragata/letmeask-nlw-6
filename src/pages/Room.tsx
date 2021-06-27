@@ -1,4 +1,4 @@
-import { FormEvent, useState, useEffect } from "react";
+import { FormEvent, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import logoImg from "../assets/images/logo.svg";
@@ -15,6 +15,7 @@ import { database } from "../services/firebase";
 import "../styles/room.scss";
 import "../styles/question.scss";
 import { useRoom } from "../hooks/useRoom";
+import toast from "react-hot-toast";
 
 type RoomParamsType = {
   id: string;
@@ -28,6 +29,9 @@ export function Room() {
   const roomId = params.id;
   const { title, questions } = useRoom(roomId);
 
+  const roomRefId = database.ref("rooms").off();
+  console.log(roomRefId);
+
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault();
 
@@ -36,6 +40,7 @@ export function Room() {
     }
 
     if (!user) {
+      toast.error("Ops, você ainda nao fez o login!");
       throw new Error("You must be logged in");
     }
 

@@ -70,5 +70,4 @@ export function useRoom(roomId: string) {
   }, [roomId, user?.id]);
 
   return { questions, title };
-
 }

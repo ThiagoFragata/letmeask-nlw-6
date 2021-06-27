@@ -1,3 +1,20 @@
+:root {
+  --purple: #835AFD;
+  --pink: #E559F9;
+
+  --danger: #E73F5D;
+  --green: #04d361;
+
+  --black: #29292E;
+  --dark: #737380;
+  --medium: #A8A8B3;
+  --light: #DBDCDD;
+  --white: #fffafa;
+
+  --background: #F8F8F8;
+  --details: #FEFEFE;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,7 +22,7 @@
 }
 
 body {
-  background: #f8f8f8;
+  background: var(--background);
 }
 
 body, input, button, textarea {
